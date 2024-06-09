@@ -1,0 +1,11 @@
+<!-- comment_form.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>댓글 작성</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+{% endblock %}

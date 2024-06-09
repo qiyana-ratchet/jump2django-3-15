@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container my-3">
+        <h3>프로필</h3>
+        <div class="card my-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ user.username }}</h5>
+                <p class="card-text">이메일: {{ user.email }}</p>
+                <p class="card-text">가입일: {{ user.date_joined }}</p>
+            </div>
+        </div>
+
+        <h4 class="my-3">작성한 질문</h4>
+        <ul class="list-group mb-3">
+            {% for question in questions %}
+                <li class="list-group-item">
+                    <a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a>
+                    <small class="text-muted">{{ question.create_date }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item">작성한 질문이 없습니다.</li>
+            {% endfor %}
+        </ul>
+
+        <h4 class="my-3">작성한 답변</h4>
+        <ul class="list-group mb-3">
+            {% for answer in answers %}
+                <li class="list-group-item">
+                    <a href="{% url 'pybo:detail' answer.question.id %}#answer_{{ answer.id }}">{{ answer.content|slice:":50" }}...</a>
+                    <small class="text-muted">{{ answer.create_date }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item">작성한 답변이 없습니다.</li>
+            {% endfor %}
+        </ul>
+
+        <h4 class="my-3">작성한 댓글</h4>
+        <ul class="list-group mb-3">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    {% if comment.question %}
+                        <a href="{% url 'pybo:detail' comment.question.id %}#comment_{{ comment.id }}">{{ comment.content|slice:":50" }}...</a>
+                    {% elif comment.answer %}
+                        <a href="{% url 'pybo:detail' comment.answer.question.id %}#comment_{{ comment.id }}">{{ comment.content|slice:":50" }}...</a>
+                    {% endif %}
+                    <small class="text-muted">{{ comment.create_date }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item">작성한 댓글이 없습니다.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

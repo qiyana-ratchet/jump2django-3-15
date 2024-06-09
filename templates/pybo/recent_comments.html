@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container my-3">
+        <h3>최근 댓글</h3>
+        <ul class="list-group mb-3">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    {% if comment.question %}
+                        <a href="{% url 'pybo:detail' comment.question.id %}#comment_{{ comment.id }}">{{ comment.content|slice:":50" }}...</a>
+                    {% elif comment.answer %}
+                        <a href="{% url 'pybo:detail' comment.answer.question.id %}#comment_{{ comment.id }}">{{ comment.content|slice:":50" }}...</a>
+                    {% endif %}
+                    <small class="text-muted">{{ comment.create_date }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item">최근 작성된 댓글이 없습니다.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

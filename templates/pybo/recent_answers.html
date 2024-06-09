@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container my-3">
+        <h3>최근 답변</h3>
+        <ul class="list-group mb-3">
+            {% for answer in answers %}
+                <li class="list-group-item">
+                    <a href="{% url 'pybo:detail' answer.question.id %}#answer_{{ answer.id }}">{{ answer.content|slice:":50" }}...</a>
+                    <small class="text-muted">{{ answer.create_date }}</small>
+                </li>
+            {% empty %}
+                <li class="list-group-item">최근 작성된 답변이 없습니다.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
